@@ -1,11 +1,11 @@
 __author__ = 'Wenjie'
-from reader import xlsReader, txtReader
-from draw import make_fig, output, draw_hist, draw_stack, draw_line, draw_cdf
+from Plot.reader import xlsReader, txtReader
+from Plot.draw import make_fig, output, draw_hist, draw_stack, draw_line, draw_cdf
 
 
 datas, legends, xaxiss = xlsReader("/home/liu/Dropbox/ICPP'2016/data-draw.xlsx")
 
-path = "/home/liu/ICPP'2016/"
+path = "/home/liu/test_pic/"
 
 data = datas['IPC']
 legend = legends['IPC']
@@ -77,7 +77,7 @@ output(fig, path + 'PFP.pdf')
 
 data, legend, xaxiss = txtReader("/home/liu/Macos2014-cbr-rewrite-info")
 
-path = "/home/liu/"
+path = "/home/liu/test_pic/"
 
 fig, ax = make_fig(0)
 # draw_cdf(fig, ax, data, legend, xaxiss, 'Average PFP slowdown', {'y_start':0, 'y_end':1, 'use_percent':1})
