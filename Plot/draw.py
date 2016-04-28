@@ -203,7 +203,7 @@ def draw_one_line(fig, ax, data, one_legend, xaxis, y_name, id, **kwargs):
             label=one_legend)
     ax.set_ylabel(y_name)
     fig.gca().set_xlim(0, benches)
-    fig.gca().set_ylim(kwargs.setdefault('y_start', 0), kwargs.setdefault('y_end', 1.2))
+    fig.gca().set_ylim(kwargs.setdefault('y_start', np.min(data)-1), kwargs.setdefault('y_end', np.max(data)+1))
     ax.set_xticks(indi)
     ax.set_xticklabels(xaxis,
                        rotation=kwargs.setdefault('rotate', 0),
