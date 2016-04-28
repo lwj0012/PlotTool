@@ -188,9 +188,8 @@ def draw_line(fig, ax, data, legends, xaxis, y_name, **kwargs):
 
 def draw_one_line(fig, ax, data, one_legend, xaxis, y_name, id, **kwargs):
     benches = 0
-    for i in range(len(data)):
-        if benches < len(data[i]):
-            benches = len(data[i])
+    if benches < len(data):
+        benches = len(data)
     xticks = np.arange(0, (benches+2), 1)
     indi = xticks[1:-1] - 0.5
     ax.plot(indi[:len(data)],
