@@ -36,21 +36,16 @@ def xlsReader(filename):
 
 def txtReader(filename):
     data = []
-    legends = []
-    xaxis = []
     first = True
-    column = 0
     with open(filename, "r") as lines:
         for line in lines:
-            seg = line[:-1].split("\t")
+            seg = line[:-1].split()
             if first:
-                legends = seg
                 column = len(seg)
-                first = False
                 for i in range(column):
                     data.append([])
-                continue
+                first = False
             for i in range(column):
                 if seg[i] is not "":
                     data[i].append(float(seg[i]))
-    return data, legends, xaxis
+    return data
