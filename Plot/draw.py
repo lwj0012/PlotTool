@@ -184,3 +184,38 @@ def draw_line(fig, ax, data, legends, xaxis, y_name, **kwargs):
         formatter = FuncFormatter(to_percent)
         # Set the formatter
         plt.gca().yaxis.set_major_formatter(formatter)
+
+
+def draw_one_line(fig, ax, data, one_legend, xaxis, y_name, id, **kwargs):
+    benches = 0
+    for i in range(len(data)):
+        if benches < len(data[i]):
+            benches = len(data[i])
+    xticks = np.arange(0, (benches+2), 1)
+    indi = xticks[1:-1] - 0.5
+    ax.plot(indi[:len(data)],
+            data,
+            color=get_color(id),
+            linestyle=kwargs.setdefault('ls', '-'),
+            linewidth=kwargs.setdefault('lw', 1.0),
+            marker=get_marker(id),
+            markersize=kwargs.setdefault('mrk_size', 5),
+            markevery=kwargs.setdefault('mrk_inv', 1),
+            label=one_legend)
+    ax.set_ylabel(y_name)
+    fig.gca().set_xlim(0, benches)
+    fig.gca().set_ylim(kwargs.setdefault('y_start', 0), kwargs.setdefault('y_end', 1.2))
+    ax.set_xticks(indi)
+    ax.set_xticklabels(xaxis,
+                       rotation=kwargs.setdefault('rotate', 0),
+                       fontsize=kwargs.setdefault('xaxis_fs', 9),
+                       va=kwargs.setdefault('xaxis_va', 'top'),
+                       ha=kwargs.setdefault('xaxis_ha', 'center'))
+    legend = ax.legend(ncol=4, bbox_to_anchor=(
+        0., 1.02, 1., .102), fontsize=9, loc='upper center')
+    legend.get_frame().set_alpha(kwargs.setdefault('lgd_alf', 0.5))
+    legend.get_frame().set_zorder(20)
+    if kwargs.setdefault('use_percent', '0'):
+        formatter = FuncFormatter(to_percent)
+        # Set the formatter
+        plt.gca().yaxis.set_major_formatter(formatter)
