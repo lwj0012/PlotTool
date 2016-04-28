@@ -12,7 +12,7 @@ legend = legends['IPC']
 xaxis = xaxiss['IPC']
 fig, ax = make_fig(1)
 para = {
-    'y_start' : 0,
+    'y_start' : 0.9,
     'y_end': 1.2
 }
 draw_hist(fig, ax, data, legend, xaxis, 'Normalized IPC', **para)
@@ -60,7 +60,7 @@ para = {
     'y_end': 1,
     'use_percent': 1
 }
-draw_stack(fig, ax, data, legend, xaxis, '% of near or far request', **para)
+draw_stack(fig, ax, data, legend, xaxis, '\% of near or far request', **para)
 output(fig, path + 'near_far.pdf')
 
 data = datas['PFP']

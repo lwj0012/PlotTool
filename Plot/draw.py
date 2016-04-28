@@ -7,6 +7,8 @@ from matplotlib.ticker import FuncFormatter, MultipleLocator
 
 
 def make_fig(large):
+    plt.rc('text', usetex=True)
+    plt.rc('font', family='serif')
     if large:
         fig, ax = plt.subplots(1, 1, sharex=True, figsize=(18, 3))
         return fig, ax
