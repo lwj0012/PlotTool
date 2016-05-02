@@ -45,11 +45,10 @@ def draw_stack(fig, ax, data, legends, xaxis, y_name, **kwargs):
         fontsize=kwargs.setdefault('xaxis_fs', 9),
         va=kwargs.setdefault('xaxis_va', 'top'),
         ha=kwargs.setdefault('xaxis_ha', 'center'))
-    legend = ax.legend(ncol=kwargs.setdefault('lgd_col', '8'),
-                       bbox_to_anchor=(0., 0.99999, 1., .105),
-                       fontsize=kwargs.setdefault('lgd_fs', 9),
-                       loc='upper center')
-    legend.get_frame().set_alpha(kwargs.setdefault('lgd_alf', 0.5))
+    ax.legend(ncol=kwargs.setdefault('lgd_col', '8'),
+              bbox_to_anchor=(0., 0.99999, 1., .105),
+              fontsize=kwargs.setdefault('lgd_fs', 9),
+              loc='upper center')
     if kwargs.setdefault('use_percent', '0'):
         formatter = FuncFormatter(to_percent)
         fig.gca().yaxis.set_major_formatter(formatter)
@@ -79,11 +78,10 @@ def draw_hist(fig, ax, data, legends, xaxis, y_name, **kwargs):
         fontsize=kwargs.setdefault('xaxis_fs', 9),
         va=kwargs.setdefault('xaxis_va', 'top'),
         ha=kwargs.setdefault('xaxis_ha', 'center'))
-    legend = ax.legend(ncol=kwargs.setdefault('lgd_col', '8'),
-                       bbox_to_anchor=(0., 1.02, 1., .102),
-                       fontsize=kwargs.setdefault('lgd_fs', 9),
-                       loc='upper center')
-    legend.get_frame().set_alpha(kwargs.setdefault('lgd_alf', 0.5))
+    ax.legend(ncol=kwargs.setdefault('lgd_col', '8'),
+              bbox_to_anchor=(0., 1.02, 1., .102),
+              fontsize=kwargs.setdefault('lgd_fs', 9),
+              loc='upper center')
     if kwargs.setdefault('use_percent', '0'):
         formatter = FuncFormatter(to_percent)
         # Set the formatter
@@ -114,11 +112,32 @@ def draw_hist_err(fig, ax, data, legends, xaxis, y_name, **kwargs):
         fontsize=kwargs.setdefault('xaxis_fs', 9),
         va=kwargs.setdefault('xaxis_va', 'top'),
         ha=kwargs.setdefault('xaxis_ha', 'center'))
-    legend = ax.legend(ncol=kwargs.setdefault('lgd_col', '8'),
-                       bbox_to_anchor=(0., 1.02, 1., .102),
-                       fontsize=kwargs.setdefault('lgd_fs', 9),
-                       loc='upper center')
-    legend.get_frame().set_alpha(kwargs.setdefault('lgd_alf', 0.5))
+    ax.legend(ncol=kwargs.setdefault('lgd_col', '8'),
+              bbox_to_anchor=(0., 1.02, 1., .102),
+              fontsize=kwargs.setdefault('lgd_fs', 9),
+              loc='upper center')
+    if kwargs.setdefault('use_percent', '0'):
+        formatter = FuncFormatter(to_percent)
+        fig.gca().yaxis.set_major_formatter(formatter)
+
+
+def draw_one_cdf(fig, ax, data, one_legend, xaxis, y_name, id, **kwargs):
+    n_bins = 10000
+    ax.hist(data,
+            n_bins,
+            normed=1,
+            histtype='step',
+            cumulative=True,
+            edgecolor=get_color(id),
+            linewidth=kwargs.setdefault('lw', 1.5),
+            label=one_legend)
+    ax.set_ylabel(y_name)
+    fig.gca().set_ylim(kwargs.setdefault('y_start', 0), kwargs.setdefault('y_end', 1.2))
+    fig.gca().set_xlim(kwargs.setdefault('x_start', 0), kwargs.setdefault('x_end', np.max(data)))
+    ax.legend(ncol=kwargs.setdefault('lgd_col', '8'),
+              bbox_to_anchor=(0., 1.00, 1., .101),
+              fontsize=kwargs.setdefault('lgd_fs', 9),
+              loc='upper center')
     if kwargs.setdefault('use_percent', '0'):
         formatter = FuncFormatter(to_percent)
         fig.gca().yaxis.set_major_formatter(formatter)
@@ -139,11 +158,10 @@ def draw_cdf(fig, ax, data, legends, xaxis, y_name, **kwargs):
     ax.set_ylabel(y_name)
     fig.gca().set_ylim(kwargs.setdefault('y_start', 0), kwargs.setdefault('y_end', 1.2))
     fig.gca().set_xlim(kwargs.setdefault('x_start', 0), kwargs.setdefault('x_end', np.max(data)))
-    legend = ax.legend(ncol=kwargs.setdefault('lgd_col', '8'),
-                       bbox_to_anchor=(0., 1.00, 1., .101),
-                       fontsize=kwargs.setdefault('lgd_fs', 9),
-                       loc='upper center')
-    legend.get_frame().set_alpha(kwargs.setdefault('lgd_alf', 0.5))
+    ax.legend(ncol=kwargs.setdefault('lgd_col', '8'),
+              bbox_to_anchor=(0., 1.00, 1., .101),
+              fontsize=kwargs.setdefault('lgd_fs', 9),
+              loc='upper center')
     if kwargs.setdefault('use_percent', '0'):
         formatter = FuncFormatter(to_percent)
         fig.gca().yaxis.set_major_formatter(formatter)
@@ -178,7 +196,6 @@ def draw_line(fig, ax, data, legends, xaxis, y_name, **kwargs):
                        ha=kwargs.setdefault('xaxis_ha', 'center'))
     legend = ax.legend(ncol=4, bbox_to_anchor=(
         0., 1.02, 1., .102), fontsize=9, loc='upper center')
-    legend.get_frame().set_alpha(kwargs.setdefault('lgd_alf', 0.5))
     legend.get_frame().set_zorder(20)
     if kwargs.setdefault('use_percent', '0'):
         formatter = FuncFormatter(to_percent)
@@ -212,7 +229,6 @@ def draw_one_line(fig, ax, data, one_legend, xaxis, y_name, id, **kwargs):
                        ha=kwargs.setdefault('xaxis_ha', 'center'))
     legend = ax.legend(ncol=4, bbox_to_anchor=(
         0., 1.02, 1., .102), fontsize=9, loc='upper center')
-    legend.get_frame().set_alpha(kwargs.setdefault('lgd_alf', 0.5))
     legend.get_frame().set_zorder(20)
     if kwargs.setdefault('use_percent', '0'):
         formatter = FuncFormatter(to_percent)
