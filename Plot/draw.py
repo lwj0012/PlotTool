@@ -25,9 +25,9 @@ def draw_stack(fig, ax, data, legends, xaxis, y_name, **kwargs):
     benches = len(data[0])
     bars = len(data)
     ind = np.arange(start=0, stop=benches*3, step=3)
-    width = 3.0/(bars+2)
+    width = 3.0/(2)
     for i in range(bars):
-        ax.bar(ind+width + width/2.0,
+        ax.bar(ind + width/2.0,
                data[i],
                width,
                color=kwargs.setdefault('color', 'w'),
@@ -36,7 +36,7 @@ def draw_stack(fig, ax, data, legends, xaxis, y_name, **kwargs):
                hatch=get_hatch(i),
                label=legends[i])
     ax.set_ylabel(y_name)
-    ax.set_xticks(ind+bars/2.0*width+width)
+    ax.set_xticks(ind+bars/2.0*width)
     fig.gca().set_ylim(kwargs.setdefault('y_start', 0), kwargs.setdefault('y_end', 1.2))
     fig.gca().set_xlim(0, benches*3)
     ax.set_xticklabels(
