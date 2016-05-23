@@ -2,7 +2,7 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import numpy as np
-from draw_helper import get_color, get_hatch, get_marker, to_percent, to_scf
+from draw_helper import get_color, get_hatch, get_marker, to_percent, to_scf, label_all
 from matplotlib.ticker import FuncFormatter, MultipleLocator
 
 
@@ -59,15 +59,17 @@ def draw_hist(fig, ax, data, legends, xaxis, y_name, **kwargs):
     bars = len(data)
     ind = np.arange(start=0, stop=benches*3, step=3)
     width = 3.0/(bars+2)
+    rects = []
     for i in range(bars):
-        ax.bar(ind+i*width+width,
-               data[i],
-               width,
-               color=kwargs.setdefault('color', 'w'),
-               edgecolor=get_color(i),
-               hatch=get_hatch(i),
-               linewidth=1,
-               label=legends[i])
+        tmp = ax.bar(ind+i*width+width,
+                     data[i],
+                     width,
+                     color=kwargs.setdefault('color', 'w'),
+                     edgecolor=get_color(i),
+                     hatch=get_hatch(i),
+                     linewidth=1,
+                     label=legends[i])
+        rects.append(tmp)
     ax.set_ylabel(y_name)
     ax.set_xticks(ind+bars/2.0*width+width)
     fig.gca().set_ylim(kwargs.setdefault('y_start', 0), kwargs.setdefault('y_end', 1.2))
@@ -86,6 +88,9 @@ def draw_hist(fig, ax, data, legends, xaxis, y_name, **kwargs):
         formatter = FuncFormatter(to_percent)
         # Set the formatter
         fig.gca().yaxis.set_major_formatter(formatter)
+    if kwargs.setdefault('use_autolabel', '0'):
+        for rect in rects:
+            autolabel(ax, rect)
 
 
 def draw_hist_err(fig, ax, data, legends, xaxis, y_name, **kwargs):

@@ -22,6 +22,17 @@ def to_scf(y, position):
         return s + 'x10^' + str(cnt)
 
 
+def label_all(ax, rects):
+    # attach some text labels
+    for rect in rects:
+        height = rect.get_height()
+        ax.text(rect.get_x() + rect.get_width()/2., height + 0.05,
+                '%.2f' % float(height),
+                rotation=30,
+                size=7,
+                ha='center', va='top')
+
+
 def autolabel(ax, rects):
     # attach some text labels
     ylim = ax.get_ylim()
