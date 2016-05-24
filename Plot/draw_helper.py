@@ -22,15 +22,23 @@ def to_scf(y, position):
         return s + 'x10^' + str(cnt)
 
 
-def label_all(ax, rects):
+def label_all(ax, rects, rot, percent, space):
     # attach some text labels
     for rect in rects:
         height = rect.get_height()
-        ax.text(rect.get_x() + rect.get_width()/2., height + 0.05,
-                '%.2f' % float(height),
-                rotation=30,
-                size=7,
-                ha='center', va='top')
+        if percent:
+            ax.text(rect.get_x() + rect.get_width()/2., height + space,
+                    '%.2f\\%%' % float(height*100),
+                    rotation=rot,
+                    size=7,
+                    ha='center', va='top')
+        else:
+            ax.text(rect.get_x() + rect.get_width()/2., height + space,
+                    '%.2f' % float(height),
+                    rotation=rot,
+                    size=7,
+                    ha='center', va='top')
+
 
 
 def autolabel(ax, rects):
