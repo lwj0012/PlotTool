@@ -2,8 +2,12 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import numpy as np
-from draw_helper import get_color, get_hatch, get_marker, to_percent, to_scf, label_all
-from matplotlib.ticker import FuncFormatter, MultipleLocator
+from draw_helper import get_color
+from draw_helper import get_hatch
+from draw_helper import get_marker
+from draw_helper import label_all
+from draw_helper import to_percent
+from matplotlib.ticker import FuncFormatter
 
 
 def make_fig(large):
@@ -24,10 +28,10 @@ def output(fig, path):
 def draw_stack(fig, ax, data, legends, xaxis, y_name, **kwargs):
     benches = len(data[0])
     bars = len(data)
-    ind = np.arange(start=0, stop=benches*3, step=3)
-    width = 3.0/(2)
+    ind = np.arange(start=0, stop=benches * 3, step=3)
+    width = 3.0 / (2)
     for i in range(bars):
-        ax.bar(ind + width/2.0,
+        ax.bar(ind + width / 2.0,
                data[i],
                width,
                color=kwargs.setdefault('color', 'w'),
@@ -36,17 +40,18 @@ def draw_stack(fig, ax, data, legends, xaxis, y_name, **kwargs):
                hatch=get_hatch(i),
                label=legends[i])
     ax.set_ylabel(y_name)
-    ax.set_xticks(ind+bars/2.0*width)
-    fig.gca().set_ylim(kwargs.setdefault('y_start', 0), kwargs.setdefault('y_end', 1.2))
-    fig.gca().set_xlim(0, benches*3)
-    ax.set_xticklabels(
-        xaxis,
-        rotation=kwargs.setdefault('rotate', 0),
-        fontsize=kwargs.setdefault('xaxis_fs', 9),
-        va=kwargs.setdefault('xaxis_va', 'top'),
-        ha=kwargs.setdefault('xaxis_ha', 'center'))
+    ax.set_xticks(ind + bars / 2.0 * width)
+    fig.gca().set_ylim(
+        kwargs.setdefault('y_start', 0), kwargs.setdefault('y_end', 1.2))
+    fig.gca().set_xlim(0, benches * 3)
+    ax.set_xticklabels(xaxis,
+                       rotation=kwargs.setdefault('rotate', 0),
+                       fontsize=kwargs.setdefault('xaxis_fs', 9),
+                       va=kwargs.setdefault('xaxis_va', 'top'),
+                       ha=kwargs.setdefault('xaxis_ha', 'center'))
     ax.legend(ncol=kwargs.setdefault('lgd_col', '8'),
-              bbox_to_anchor=kwargs.setdefault('lgd_cord', (0., 0.99999, 1., .105)),
+              bbox_to_anchor=kwargs.setdefault('lgd_cord',
+                                               (0., 0.99999, 1., .105)),
               fontsize=kwargs.setdefault('lgd_fs', 9),
               loc='upper center')
     if kwargs.setdefault('use_percent', '0'):
@@ -57,11 +62,11 @@ def draw_stack(fig, ax, data, legends, xaxis, y_name, **kwargs):
 def draw_hist(fig, ax, data, legends, xaxis, y_name, **kwargs):
     benches = len(data[0])
     bars = len(data)
-    ind = np.arange(start=0, stop=benches*3, step=3)
-    width = 3.0/(bars+2)
+    ind = np.arange(start=0, stop=benches * 3, step=3)
+    width = 3.0 / (bars + 2)
     rects = []
     for i in range(bars):
-        tmp = ax.bar(ind+i*width+width,
+        tmp = ax.bar(ind + i * width + width,
                      data[i],
                      width,
                      color=kwargs.setdefault('color', 'w'),
@@ -71,17 +76,18 @@ def draw_hist(fig, ax, data, legends, xaxis, y_name, **kwargs):
                      label=legends[i])
         rects.append(tmp)
     ax.set_ylabel(y_name)
-    ax.set_xticks(ind+bars/2.0*width+width)
-    fig.gca().set_ylim(kwargs.setdefault('y_start', 0), kwargs.setdefault('y_end', 1.2))
-    fig.gca().set_xlim(0, benches*3)
-    ax.set_xticklabels(
-        xaxis,
-        rotation=kwargs.setdefault('rotate', 0),
-        fontsize=kwargs.setdefault('xaxis_fs', 9),
-        va=kwargs.setdefault('xaxis_va', 'top'),
-        ha=kwargs.setdefault('xaxis_ha', 'center'))
+    ax.set_xticks(ind + bars / 2.0 * width + width)
+    fig.gca().set_ylim(
+        kwargs.setdefault('y_start', 0), kwargs.setdefault('y_end', 1.2))
+    fig.gca().set_xlim(0, benches * 3)
+    ax.set_xticklabels(xaxis,
+                       rotation=kwargs.setdefault('rotate', 0),
+                       fontsize=kwargs.setdefault('xaxis_fs', 9),
+                       va=kwargs.setdefault('xaxis_va', 'top'),
+                       ha=kwargs.setdefault('xaxis_ha', 'center'))
     ax.legend(ncol=kwargs.setdefault('lgd_col', '8'),
-              bbox_to_anchor=kwargs.setdefault('lgd_cord', (0., 1.02, 1., .102)),
+              bbox_to_anchor=kwargs.setdefault('lgd_cord',
+                                               (0., 1.02, 1., .102)),
               fontsize=kwargs.setdefault('lgd_fs', 9),
               loc='upper center')
     if kwargs.setdefault('use_percent', '0'):
@@ -90,35 +96,38 @@ def draw_hist(fig, ax, data, legends, xaxis, y_name, **kwargs):
         fig.gca().yaxis.set_major_formatter(formatter)
     if kwargs.setdefault('use_labelall', 0):
         for rect in rects:
-            label_all(ax, rect, kwargs.setdefault('use_labelall_rotate', 0), kwargs.setdefault('use_labelall_percent', 0), kwargs.setdefault('use_labelall_space', 0.05))
+            label_all(ax, rect, kwargs.setdefault('use_labelall_rotate', 0),
+                      kwargs.setdefault('use_labelall_percent', 0),
+                      kwargs.setdefault('use_labelall_space', 0.05))
 
 
 def draw_hist_err(fig, ax, data, legends, xaxis, y_name, **kwargs):
     benches = len(data[0])
     bars = len(data)
-    ind = np.arange(start=0, stop=benches*3, step=3)
-    width = 3.0/(bars+2)
-    for i in range(bars/2):
-        ax.bar(ind+i*width+width,
+    ind = np.arange(start=0, stop=benches * 3, step=3)
+    width = 3.0 / (bars + 2)
+    for i in range(bars / 2):
+        ax.bar(ind + i * width + width,
                data[i],
                width,
                color=kwargs.setdefault('color', 'w'),
                edgecolor=get_color(i),
                hatch=get_hatch(i),
-               yerr=data[bars/2+i],
+               yerr=data[bars / 2 + i],
                label=legends[i])
     ax.set_ylabel(y_name)
-    ax.set_xticks(ind+bars/2.0*width+width)
-    fig.gca().set_ylim(kwargs.setdefault('y_start', 0), kwargs.setdefault('y_end', 1.2))
-    fig.gca().set_xlim(0, benches*3)
-    ax.set_xticklabels(
-        xaxis,
-        rotation=kwargs.setdefault('rotate', 0),
-        fontsize=kwargs.setdefault('xaxis_fs', 9),
-        va=kwargs.setdefault('xaxis_va', 'top'),
-        ha=kwargs.setdefault('xaxis_ha', 'center'))
+    ax.set_xticks(ind + bars / 2.0 * width + width)
+    fig.gca().set_ylim(
+        kwargs.setdefault('y_start', 0), kwargs.setdefault('y_end', 1.2))
+    fig.gca().set_xlim(0, benches * 3)
+    ax.set_xticklabels(xaxis,
+                       rotation=kwargs.setdefault('rotate', 0),
+                       fontsize=kwargs.setdefault('xaxis_fs', 9),
+                       va=kwargs.setdefault('xaxis_va', 'top'),
+                       ha=kwargs.setdefault('xaxis_ha', 'center'))
     ax.legend(ncol=kwargs.setdefault('lgd_col', '8'),
-              bbox_to_anchor=kwargs.setdefault('lgd_cord', (0., 1.02, 1., .102)),
+              bbox_to_anchor=kwargs.setdefault('lgd_cord',
+                                               (0., 1.02, 1., .102)),
               fontsize=kwargs.setdefault('lgd_fs', 9),
               loc='upper center')
     if kwargs.setdefault('use_percent', '0'):
@@ -137,10 +146,14 @@ def draw_one_cdf(fig, ax, data, one_legend, xaxis, y_name, id, **kwargs):
             linewidth=kwargs.setdefault('lw', 1.5),
             label=one_legend)
     ax.set_ylabel(y_name)
-    fig.gca().set_ylim(kwargs.setdefault('y_start', 0), kwargs.setdefault('y_end', 1.2))
-    fig.gca().set_xlim(kwargs.setdefault('x_start', 0), kwargs.setdefault('x_end', np.max(data)))
+    fig.gca().set_ylim(
+        kwargs.setdefault('y_start', 0), kwargs.setdefault('y_end', 1.2))
+    fig.gca().set_xlim(
+        kwargs.setdefault('x_start', 0), kwargs.setdefault('x_end',
+                                                           np.max(data)))
     ax.legend(ncol=kwargs.setdefault('lgd_col', '8'),
-              bbox_to_anchor=kwargs.setdefault('lgd_cord', (0., 1.00, 1., .101)),
+              bbox_to_anchor=kwargs.setdefault('lgd_cord',
+                                               (0., 1.00, 1., .101)),
               fontsize=kwargs.setdefault('lgd_fs', 9),
               loc='upper center')
     if kwargs.setdefault('use_percent', '0'):
@@ -161,10 +174,14 @@ def draw_cdf(fig, ax, data, legends, xaxis, y_name, **kwargs):
                 linewidth=kwargs.setdefault('lw', 1.5),
                 label=legends[i])
     ax.set_ylabel(y_name)
-    fig.gca().set_ylim(kwargs.setdefault('y_start', 0), kwargs.setdefault('y_end', 1.2))
-    fig.gca().set_xlim(kwargs.setdefault('x_start', 0), kwargs.setdefault('x_end', np.max(data)))
+    fig.gca().set_ylim(
+        kwargs.setdefault('y_start', 0), kwargs.setdefault('y_end', 1.2))
+    fig.gca().set_xlim(
+        kwargs.setdefault('x_start', 0), kwargs.setdefault('x_end',
+                                                           np.max(data)))
     ax.legend(ncol=kwargs.setdefault('lgd_col', '8'),
-              bbox_to_anchor=kwargs.setdefault('lgd_cord', (0., 1.00, 1., .101)),
+              bbox_to_anchor=kwargs.setdefault('lgd_cord',
+                                               (0., 1.00, 1., .101)),
               fontsize=kwargs.setdefault('lgd_fs', 9),
               loc='upper center')
     if kwargs.setdefault('use_percent', '0'):
@@ -178,7 +195,7 @@ def draw_line(fig, ax, data, legends, xaxis, y_name, **kwargs):
     for i in range(len(data)):
         if benches < len(data[i]):
             benches = len(data[i])
-    xticks = np.arange(0, (benches+2), 1)
+    xticks = np.arange(0, (benches + 2), 1)
     indi = xticks[1:-1] - 0.5
     for i in range(lines):
         ax.plot(indi[:len(data[i])],
@@ -192,7 +209,8 @@ def draw_line(fig, ax, data, legends, xaxis, y_name, **kwargs):
                 label=legends[i])
     ax.set_ylabel(y_name)
     fig.gca().set_xlim(0, benches)
-    fig.gca().set_ylim(kwargs.setdefault('y_start', 0), kwargs.setdefault('y_end', 1.2))
+    fig.gca().set_ylim(
+        kwargs.setdefault('y_start', 0), kwargs.setdefault('y_end', 1.2))
     ax.set_xticks(indi)
     ax.set_xticklabels(xaxis,
                        rotation=kwargs.setdefault('rotate', 0),
@@ -200,7 +218,8 @@ def draw_line(fig, ax, data, legends, xaxis, y_name, **kwargs):
                        va=kwargs.setdefault('xaxis_va', 'top'),
                        ha=kwargs.setdefault('xaxis_ha', 'center'))
     legend = ax.legend(ncol=4,
-                       bbox_to_anchor=kwargs.setdefault('lgd_cord', (0., 1.02, 1., .102)),
+                       bbox_to_anchor=kwargs.setdefault('lgd_cord',
+                                                        (0., 1.02, 1., .102)),
                        fontsize=9,
                        loc='upper center')
     legend.get_frame().set_zorder(20)
@@ -214,7 +233,7 @@ def draw_one_line(fig, ax, data, one_legend, xaxis, y_name, id, **kwargs):
     benches = 0
     if benches < len(data):
         benches = len(data)
-    xticks = np.arange(0, (benches+2), 1)
+    xticks = np.arange(0, (benches + 2), 1)
     indi = xticks[1:-1] - 0.5
     ax.plot(indi[:len(data)],
             data,
@@ -227,7 +246,9 @@ def draw_one_line(fig, ax, data, one_legend, xaxis, y_name, id, **kwargs):
             label=one_legend)
     ax.set_ylabel(y_name)
     fig.gca().set_xlim(0, benches)
-    fig.gca().set_ylim(kwargs.setdefault('y_start', np.min(data)-1), kwargs.setdefault('y_end', np.max(data)+1))
+    fig.gca().set_ylim(
+        kwargs.setdefault('y_start', np.min(data) - 1), kwargs.setdefault(
+            'y_end', np.max(data) + 1))
     ax.set_xticks(indi[::kwargs.setdefault('xaxis_inv', 1)])
     xaxis = [int(i) for i in xaxis]
     xaxis[0] = 1
@@ -237,7 +258,8 @@ def draw_one_line(fig, ax, data, one_legend, xaxis, y_name, id, **kwargs):
                        va=kwargs.setdefault('xaxis_va', 'top'),
                        ha=kwargs.setdefault('xaxis_ha', 'center'))
     legend = ax.legend(ncol=4,
-                       bbox_to_anchor=kwargs.setdefault('lgd_cord', (0., 1.02, 1., .102)),
+                       bbox_to_anchor=kwargs.setdefault('lgd_cord',
+                                                        (0., 1.02, 1., .102)),
                        fontsize=9,
                        loc='upper center')
     legend.get_frame().set_zorder(20)
